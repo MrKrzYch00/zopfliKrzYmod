@@ -56,8 +56,8 @@ testlib:
 
 # Zopfli shared library
 libzopfli:
-	$(CC) $(ZOPFLILIB_SRC) $(CFLAGS) $(ZDEFOPT) $(ZADDOPT) -c
-	$(CC) $(ZOPFLILIB_OBJ) $(CFLAGS) $(ZDEFOPT) $(ZADDOPT) -shared -Wl,-soname,libzopfli.so.1 -o libzopfli.so.1.0.1
+	$(CC) $(ZOPFLILIB_SRC) $(CFLAGS) $(ZDEFOPT) $(ZADDOPT) -fPIC -c
+	$(CC) $(ZOPFLILIB_OBJ) $(CFLAGS) $(ZDEFOPT) $(ZADDOPT) -fPIC -shared -Wl,-soname,libzopfli.so.1 -o libzopfli.so.1.0.1
 
 libzopfliavx:
 	$(CC) $(ZOPFLILIB_SRC) $(CFLAGS) $(ZDEFOPT) $(CAVXFLAGS) $(ZADDOPT)  -c
