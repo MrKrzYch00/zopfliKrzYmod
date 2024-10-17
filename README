@@ -12,6 +12,7 @@ Features:
 - Additional switches to finetune compression and block splitting,
 - Ability to use dumb block size splitting,
 - Ability to use predefined split points,
+- Ability to stop iterating early for time-consuming blocks.
 
 Without passing its special commands the program should run as usual.
 
@@ -225,8 +226,15 @@ Description of new commands list in Zopfli KrzYmod:
    performance. Default is 1 (one MASTER controller and one SLAVE compressor thread).
    Setting this value to 0 will run Zopfli KrzYmod in compatibility mode making MASTER
    do all the work alone and verbose output iterations as per original.
+   
+31. --tstop#
 
-32. --aff#
+   Prevents zopfli from becoming stuck compressing time-consuming blocks with # many
+   threads remaining. Instead order all remaining threads to finish early by setting
+   the --mui parameter for blocks they are currently processing.
+   If not < --t#, will be set to --t# - 1. Default: not used.
+
+33. --aff#
 
    Specify affinity masks to use per thread separated by comma. This switch may help
    for systems where the scheduler switches a thread from one CPU die to another.
@@ -235,12 +243,12 @@ Description of new commands list in Zopfli KrzYmod:
    delays. E.g: --aff63,4032 - use 6 first system visible cores for every odd thread
    and 6 next system visible cores for every even thread, human counted.
 
-33. --idle
+34. --idle
 
    Runs Zopfli at lowest possible priority. Avoids computer slowness when all threads
    are assigned to Zopfli.
 
-34. --v#
+35. --v#
 
    Known as -v in original. Controls verbosity of Zopfli KrzYmod. The default is 2.
    * 0 - quiet mode, don't display anthing except some errors,
@@ -396,7 +404,6 @@ Additionally to mentioned above options KrzYmod Zopfli version also fix few issu
 in original release, for example incorrect Deflate stream size being raported.
 Also supports Unix (gzip) and MS-DOS (zip) timestamps inside archives.
 
-Bitcoin: 1KrzY1CwE532e6YjN4aCzgV19gtAzQMatJ
 Paypal:  https://www.paypal.me/MrKrzYch00
 ^ in case You want to reward my work.
 

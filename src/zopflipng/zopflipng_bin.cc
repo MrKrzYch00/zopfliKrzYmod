@@ -2,7 +2,7 @@
 Copyright 2016 Google Inc. All Rights Reserved.
 Copyright 2016 Frédéric Kayser. All Rights Reserved.
 Copyright 2016 Aaron Kaluszka. All Rights Reserved.
-Copyright 2016 Mr_KrzYch00. All Rights Reserved.
+Copyright 2024 Mr_KrzYch00. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -54,9 +54,14 @@ static void IdlePriority() {
 void intHandlerpng(int exit_code) {
   if(exit_code==2) {
     if(mui == 1) exit(EXIT_FAILURE);
-    fprintf(stderr,"                                                              \n"
-                   " (!!) CTRL+C detected! Setting --mui to 1 to finish work ASAP!\n"
-                   " (!!) Press it again to abort work.\n");
+    fprintf(stderr," (!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)\n"
+                   " (!!)                                                               (!!)\n"
+                   " (!!) CTRL+C detected! Setting --mui to 1 to finish processing ASAP (!!)\n"
+                   " (!!) Block restore points won't be saved from now on               (!!)\n"
+                   " (!!) Won't be applied to current block if --t0 was used            (!!)\n"
+                   " (!!) Pressing CTRL+C again will TERMINATE the application          (!!)\n");
+    fprintf(stderr," (!!)                                                               (!!)\n"
+                   " (!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!)\n");
     mui=1;
   }
 }
@@ -167,6 +172,7 @@ void ShowHelp() {
          "--keepchunks=[*,*,*...]    keep metadata chunks with these names\n"
          "--keepcolortype            keep original color type and bit depth\n"
          "--t=[#]                    compress using # threads, 0 = compat. (d:1)\n"
+         "--tstop=#                  stop early when <= # threads. (d:0)\n"
          "--aff=[#,#,#...]           compression thr. affinity: mask,mask... (d: not set)\n"
          "--idle                     use idle process priority\n"
          "--pass=[#]                 recompress last split points max # times (d: 0)\n"
@@ -330,6 +336,8 @@ int main(int argc, char *argv[]) {
         png_options.ranstatewz = num + (png_options.ranstatewz & 0xFFFF0000);
       } else if (name == "--idle") {
         IdlePriority();
+      } else if (name == "--tstop") {
+        png_options.numthreadsstop = num;
       } else if (name == "--t") {
         png_options.numthreads = num;
       } else if (name == "--aff") {

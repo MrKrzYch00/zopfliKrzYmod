@@ -2,7 +2,7 @@
 Copyright 2016 Google Inc. All Rights Reserved.
 Copyright 2016 Frédéric Kayser. All Rights Reserved.
 Copyright 2016 Aaron Kaluszka. All Rights Reserved.
-Copyright 2016 Mr_KrzYch00. All Rights Reserved.
+Copyright 2024 Mr_KrzYch00. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -57,6 +57,7 @@ ZopfliPNGOptions::ZopfliPNGOptions()
   , pass(0)
   , mode(0)
   , numthreads(1)
+  , numthreadsstop(0)
   , statimportance(100)
   , threadaffinity(NULL)
   , affamount(0)

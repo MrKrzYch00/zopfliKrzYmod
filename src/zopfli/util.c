@@ -1,6 +1,6 @@
 /*
 Copyright 2011 Google Inc. All Rights Reserved.
-Copyright 2015 Mr_KrzYch00. All Rights Reserved.
+Copyright 2024 Mr_KrzYch00. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ void ZopfliInitOptions(ZopfliOptions* options) {
   options->pass = 0;
   options->mode = 0;
   options->numthreads = 1;
+  options->numthreadsstop = 0;
   options->statimportance = 100;
   options->threadaffinity = NULL;
   options->affamount = 0;

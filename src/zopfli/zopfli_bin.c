@@ -1,6 +1,6 @@
 /*
 Copyright 2011 Google Inc. All Rights Reserved.
-Copyright 2016 Mr_KrzYch00. All Rights Reserved.
+Copyright 2024 Mr_KrzYch00. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -735,9 +735,13 @@ int main(int argc, char* argv[]) {
     }  else if (arg[0] == '-' && arg[1] == '-' && arg[2] == 'i'
              && arg[3] >= '0' && arg[3] <= '9') {
       options.numiterations = atoi(arg + 3);
-    }  else if (arg[0] == '-' && arg[1] == '-' && arg[2] == 't'
-             && arg[3] >= '0' && arg[3] <= '9') {
-      options.numthreads = atoi(arg + 3);
+    }  else if (arg[0] == '-' && arg[1] == '-' && arg[2] == 't') {
+      if(arg[3] >= '0' && arg[3] <= '9') {
+        options.numthreads = atoi(arg + 3);
+      } else if(arg[3] == 's' && arg[4] == 't' && arg[5] == 'o' && arg[6] == 'p'
+             && arg[7] >= '0' && arg[7] <= '9') {
+        options.numthreadsstop = atoi(arg + 7);
+      }
     }  else if (arg[0] == '-' && arg[1] == '-' && arg[2] == 'a' && arg[3] == 'f'
              && arg[4] == 'f' && arg[5] >= '0' && arg[5] <= '9') {
       const char *aff = arg+5;
@@ -889,6 +893,7 @@ int main(int argc, char* argv[]) {
       fprintf(stderr,
           " *********** MISCELLANEOUS ***********\n"
           "  --t#          compress using # threads, 0 = compat. (d:1)\n"
+          "  --tstop#      stop early when <= # threads. (d:0)\n"
           "  --aff#,#,#... thread affinity: mask,mask,mask... (d: not set)\n"
           "  --idle        use idle process priority\n"
           "  --pass#       recompress last split points max # times (d: 0)\n");
@@ -905,6 +910,10 @@ int main(int argc, char* argv[]) {
                      "Maximum supported input file size: %luMB.\n\n",(int)(8 * sizeof(zfloat)),(unsigned long)((size_t)(-1)/1024/1024));
       return EXIT_FAILURE;
     }
+  }
+  
+  if(options.numthreads > 0 && options.numthreadsstop >= options.numthreads) {
+    options.numthreadsstop = options.numthreads - 1;
   }
 
   if(options.verbose) VersionInfo();

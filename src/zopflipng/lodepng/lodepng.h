@@ -28,6 +28,7 @@ freely, subject to the following restrictions:
 #define LODEPNG_H
 
 #include "../../zopfli/defines.h"
+#include <cstdint>
 #include <string.h> /*for size_t*/
 
 extern const char* LODEPNG_VERSION_STRING;

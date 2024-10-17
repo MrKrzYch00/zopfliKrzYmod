@@ -1,7 +1,7 @@
 /*
 Copyright 2011 Google Inc. All Rights Reserved.
 Copyright 2015 Frédéric Kayser. All Rights Reserved.
-Copyright 2020 Mr_KrzYch00. All Rights Reserved.
+Copyright 2024 Mr_KrzYch00. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1644,6 +1644,8 @@ static void ZopfliUseThreads(const ZopfliOptions* options,
                   }
               }
           }
+          if(mui)
+            t[threnum].iterations.maxfailiterations = mui;
           if(options->verbose>2) {
             if(t[showthread].is_running==1) {
               unsigned calci, thrprogress;
@@ -1716,6 +1718,7 @@ static void ZopfliUseThreads(const ZopfliOptions* options,
             t[threnum].iterations.cost = 0;
             t[threnum].iterations.iteration = 0;
             t[threnum].iterations.bestiteration = 0;
+            t[threnum].iterations.maxfailiterations = (mui?mui:options->maxfailiterations);
             t[threnum].is_running = 1;
             if(options->numthreads) {
               if(t[threnum].is_started == 0) {
@@ -1805,6 +1808,11 @@ static void ZopfliUseThreads(const ZopfliOptions* options,
           if(threnum>=numthreads) threnum=0;
           if(threadsrunning==0 &&
             (neednext==1 || nomoredata==1)) break;
+          if(nomoredata==1 && threadsrunning<=options->numthreadsstop) {
+            for(n=0;n<numthreads;++n) {
+              t[n].iterations.maxfailiterations = 1;
+            }
+          }
         }
         if(neednext==1) break;
       } 
