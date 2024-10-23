@@ -615,19 +615,21 @@ zfloat ZopfliLZ77Optimal(ZopfliBlockState *s,
     }
     if(iterations->maxfailiterations && fails > iterations->maxfailiterations) break;
     CopyStats(&stats, &laststats);
-    ClearStatFreqs(&stats);
-    GetStatistics(&currentstore, &stats);
     if (i > 5 && cost == lastcost) {
       CopyStats(&beststats, &stats);
       RandomizeStatFreqs(&ran_state, &stats);
       CalculateStatistics(&stats);
       lastrandomstep = 1;
-    } else if (lastrandomstep) {
-      /* This makes it converge slower but better. Do it only once the
-      randomness kicks in so that if the user does few iterations, it gives a
-      better result sooner. */
-      AddWeighedStatFreqs(&stats, statsimp, &laststats, laststatsimp, &stats);
-      CalculateStatistics(&stats);
+    } else {
+      ClearStatFreqs(&stats);
+      GetStatistics(&currentstore, &stats);
+      if (lastrandomstep) {
+        /* This makes it converge slower but better. Do it only once the
+        randomness kicks in so that if the user does few iterations, it gives a
+        better result sooner. */
+        AddWeighedStatFreqs(&stats, statsimp, &laststats, laststatsimp, &stats);
+        CalculateStatistics(&stats);
+      }
     }
     lastcost = cost;
     ++i;
