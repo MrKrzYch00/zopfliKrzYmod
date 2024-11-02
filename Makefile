@@ -1,7 +1,7 @@
 CC ?= gcc
 CXX ?= g++
 
-CFLAGS = -W -Wall -Wextra -Wcast-align -Wno-unused-function -ansi -pedantic -pthread -Wno-unused-function
+CFLAGS = -W -Wall -Wextra -Wcast-align -Wno-unused-function -ansi -pedantic -pthread
 CXXFLAGS = -W -Wall -Wextra -Wcast-align -Wno-unused-function -ansi -pedantic -std=gnu++11 -pthread
 
 #It's recommended to double-compile zopfli by first adding -fprofile-generate, running it on
